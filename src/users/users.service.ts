@@ -68,4 +68,12 @@ export class UsersService {
   async getUsers(): Promise<User[]> {
     return this.userRepository.find();
   }
+
+  async getUserByEmail(email: string): Promise<User | null> {
+    const user = await this.userRepository.findOne({ where: { email } });
+    if (!user) {
+      throw new CustomHttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+    return user;
+  }
 }
