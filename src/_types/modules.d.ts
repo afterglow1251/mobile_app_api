@@ -7,6 +7,9 @@ declare global {
       DB_USERNAME: string;
       DB_PASSWORD: string;
       DB_NAME: string;
+      JWT_SECRET: string;
+      JWT_EXPIRATION_TIME: string;
+      NODE_ENV: string;
     }
   }
 }
