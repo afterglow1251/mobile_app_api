@@ -7,6 +7,7 @@ import {
   UsePipes,
   ValidationPipe,
   Req,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { LoginUserDto, RegisterUserDto } from 'src/dto/user';
@@ -46,5 +47,11 @@ export class UsersController {
     const users = await this.usersService.getUsers();
     const usersWithoutPassword = users.map((user) => omit(user, ['password']));
     return usersWithoutPassword;
+  }
+
+  @Get('by-email')
+  async getUserByEmail(@Query('email') email: string) {
+    const user = await this.usersService.getUserByEmail(email);
+    return omit(user, ['password']);
   }
 }
