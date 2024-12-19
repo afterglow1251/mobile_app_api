@@ -15,12 +15,24 @@ export class UsersService {
   ) {}
 
   async register(username: string, email: string, password: string) {
+    const existingUser = await this.userRepository.findOne({
+      where: { email },
+    });
+    if (existingUser) {
+      throw new CustomHttpException(
+        'Email is already in use',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     const hashedPassword = await hash(password, BCRYPT_SALT_ROUNDS);
+
     const user = this.userRepository.create({
       username,
       email,
       password: hashedPassword,
     });
+
     return this.userRepository.save(user);
   }
 
@@ -44,5 +56,17 @@ export class UsersService {
     return {
       accessToken,
     };
+  }
+
+  async getUserById(userId: number): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    if (!user) {
+      throw new CustomHttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+    return user;
+  }
+
+  async getUsers(): Promise<User[]> {
+    return this.userRepository.find();
   }
 }
