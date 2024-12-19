@@ -21,8 +21,8 @@ export class UsersController {
   @Post('register')
   @UsePipes(ValidationPipe)
   async register(@Body() registerDto: RegisterUserDto) {
-    const { username, email, password } = registerDto;
-    return this.usersService.register(username, email, password);
+    const { email, password } = registerDto;
+    return this.usersService.register(email, password);
   }
 
   @Post('login')
