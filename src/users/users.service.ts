@@ -21,7 +21,7 @@ export class UsersService {
     if (existingUser) {
       throw new CustomHttpException(
         'Email is already in use',
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.CONFLICT,
       );
     }
 
