@@ -51,10 +51,10 @@ export class UsersService {
     }
 
     const payload = { email: user.email, id: user.id };
-    const accessToken = this.jwtService.sign(payload);
+    const token = this.jwtService.sign(payload);
 
     return {
-      accessToken,
+      token,
     };
   }
 
