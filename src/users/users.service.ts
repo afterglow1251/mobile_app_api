@@ -14,7 +14,7 @@ export class UsersService {
     private jwtService: JwtService,
   ) {}
 
-  async register(username: string, email: string, password: string) {
+  async register(email: string, password: string) {
     const existingUser = await this.userRepository.findOne({
       where: { email },
     });
@@ -28,7 +28,6 @@ export class UsersService {
     const hashedPassword = await hash(password, BCRYPT_SALT_ROUNDS);
 
     const user = this.userRepository.create({
-      username,
       email,
       password: hashedPassword,
     });
