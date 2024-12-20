@@ -2,6 +2,7 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { compare, hash } from 'bcryptjs';
+import { omit } from 'lodash';
 import { BCRYPT_SALT_ROUNDS } from 'src/constants/auth.constants';
 import { User } from 'src/entities/user.entity';
 import { CustomHttpException } from 'src/errors/custom-http.exception';
@@ -54,6 +55,7 @@ export class UsersService {
 
     return {
       token,
+      ...omit(user, ['password']),
     };
   }
 
