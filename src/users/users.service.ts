@@ -55,7 +55,7 @@ export class UsersService {
 
     return {
       token,
-      ...omit(user, ['password']),
+      user: omit(user, ['password']),
     };
   }
 
