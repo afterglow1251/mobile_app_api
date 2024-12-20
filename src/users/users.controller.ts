@@ -4,8 +4,6 @@ import {
   Get,
   Post,
   UseGuards,
-  UsePipes,
-  ValidationPipe,
   Req,
   Query,
   HttpStatus,
@@ -22,7 +20,6 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('register')
-  @UsePipes(ValidationPipe)
   async register(@Body() registerDto: RegisterUserDto) {
     const { email, password } = registerDto;
     return this.usersService.register(email, password);
@@ -30,7 +27,6 @@ export class UsersController {
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  @UsePipes(ValidationPipe)
   async login(@Body() loginDto: LoginUserDto) {
     const { email, password } = loginDto;
     return this.usersService.login(email, password);

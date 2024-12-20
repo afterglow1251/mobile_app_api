@@ -7,6 +7,11 @@ import { User } from './entities/user.entity';
 import { UsersModule } from './users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { LoggingMiddleware } from './middlewares/logging.middleware';
+import { Product } from './entities/product.entity';
+import { ProductImage } from './entities/product-image.entity';
+import { ProductsModule } from './products/products.module';
+import { CategoriesModule } from './categories/categories.module';
+import { Category } from './entities/category.entity';
 
 @Module({
   imports: [
@@ -20,7 +25,7 @@ import { LoggingMiddleware } from './middlewares/logging.middleware';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [User],
+      entities: [User, Product, ProductImage, Category],
       synchronize: true,
       logging: true,
     }),
@@ -36,6 +41,8 @@ import { LoggingMiddleware } from './middlewares/logging.middleware';
       inject: [ConfigService],
     }),
     UsersModule,
+    ProductsModule,
+    CategoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
