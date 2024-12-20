@@ -8,6 +8,8 @@ import {
   ValidationPipe,
   Req,
   Query,
+  HttpStatus,
+  HttpCode,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { LoginUserDto, RegisterUserDto } from 'src/dto/user';
@@ -27,6 +29,7 @@ export class UsersController {
   }
 
   @Post('login')
+  @HttpCode(HttpStatus.OK)
   @UsePipes(ValidationPipe)
   async login(@Body() loginDto: LoginUserDto) {
     const { email, password } = loginDto;
