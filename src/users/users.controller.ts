@@ -8,7 +8,7 @@ import {
   Query,
   HttpStatus,
   HttpCode,
-  Param,
+  Patch,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { LoginUserDto, RegisterUserDto } from 'src/dto/user';
@@ -16,7 +16,6 @@ import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { omit } from 'lodash';
 import { RequestWithUser } from 'src/_types/user';
 import { UpdateUserDto } from 'src/dto/user/update-user.dto';
-import { CustomHttpException } from 'src/errors/custom-http.exception';
 
 @Controller('users')
 export class UsersController {
@@ -57,7 +56,7 @@ export class UsersController {
     return omit(user, ['password']);
   }
 
-  @Post('update')
+  @Patch('update')
   @UseGuards(JwtAuthGuard)
   async updateUser(
     @Body() updateUserDto: UpdateUserDto,

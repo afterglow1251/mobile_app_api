@@ -15,6 +15,12 @@ export class User {
   @Column({ type: 'varchar', length: 255 })
   password: string;
 
+  @Column({ type: 'varchar', length: 15, nullable: true })
+  phoneNumber: string | null;
+
+  @Column({ type: 'varchar', length: 500, nullable: true })
+  address: string | null;
+
   @OneToMany(() => Order, (order) => order.user)
   orders: Order[];
 }
