@@ -87,9 +87,7 @@ export class UsersService {
       throw new CustomHttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
-    if (updateUserDto.username) {
-      user.username = updateUserDto.username;
-    }
+    Object.assign(user, updateUserDto);
 
     return this.userRepository.save(user);
   }
