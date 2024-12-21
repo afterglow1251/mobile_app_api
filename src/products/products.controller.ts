@@ -41,4 +41,11 @@ export class ProductsController {
   async remove(@Param('id') id: number): Promise<void> {
     return this.productsService.remove(id);
   }
+
+  @Get('category/:categoryName')
+  async findByCategory(
+    @Param('categoryName') categoryName: string,
+  ): Promise<Product[]> {
+    return this.productsService.findByCategory(categoryName);
+  }
 }

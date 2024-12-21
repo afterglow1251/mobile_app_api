@@ -51,4 +51,11 @@ export class ProductsService {
   async remove(id: number): Promise<void> {
     await this.productsRepository.delete(id);
   }
+
+  async findByCategory(categoryName: string): Promise<Product[]> {
+    return this.productsRepository.find({
+      where: { category: { name: categoryName } },
+      relations: ['category', 'images'],
+    });
+  }
 }
