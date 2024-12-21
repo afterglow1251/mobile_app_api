@@ -31,16 +31,16 @@ export class CategoriesController {
     const existingBeerCategory =
       await this.categoriesService.findOneByName('beer');
     const existingSnacksCategory =
-      await this.categoriesService.findOneByName('snacks');
+      await this.categoriesService.findOneByName('snack');
 
     if (!existingBeerCategory) {
       await this.categoriesService.create({ name: 'beer' });
     }
 
     if (!existingSnacksCategory) {
-      await this.categoriesService.create({ name: 'snacks' });
+      await this.categoriesService.create({ name: 'snack' });
     }
 
-    return 'Categories "beer" and "snacks" created successfully';
+    return 'Categories "beer" and "snack" created successfully';
   }
 }
