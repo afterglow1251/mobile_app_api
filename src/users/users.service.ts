@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { compare, hash } from 'bcryptjs';
 import { omit } from 'lodash';
 import { BCRYPT_SALT_ROUNDS } from 'src/constants/auth.constants';
+import { UpdateUserDto } from 'src/dto/user/update-user.dto';
 import { User } from 'src/entities/user.entity';
 import { CustomHttpException } from 'src/errors/custom-http.exception';
 import { Repository } from 'typeorm';
@@ -77,5 +78,19 @@ export class UsersService {
       throw new CustomHttpException('User not found', HttpStatus.NOT_FOUND);
     }
     return user;
+  }
+
+  async updateUser(userId: number, updateUserDto: UpdateUserDto) {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+
+    if (!user) {
+      throw new CustomHttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    if (updateUserDto.username) {
+      user.username = updateUserDto.username;
+    }
+
+    return this.userRepository.save(user);
   }
 }

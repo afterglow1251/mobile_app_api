@@ -8,12 +8,15 @@ import {
   Query,
   HttpStatus,
   HttpCode,
+  Param,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { LoginUserDto, RegisterUserDto } from 'src/dto/user';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { omit } from 'lodash';
 import { RequestWithUser } from 'src/_types/user';
+import { UpdateUserDto } from 'src/dto/user/update-user.dto';
+import { CustomHttpException } from 'src/errors/custom-http.exception';
 
 @Controller('users')
 export class UsersController {
@@ -52,5 +55,20 @@ export class UsersController {
   async getUserByEmail(@Query('email') email: string) {
     const user = await this.usersService.getUserByEmail(email);
     return omit(user, ['password']);
+  }
+
+  @Post('update')
+  @UseGuards(JwtAuthGuard)
+  async updateUser(
+    @Body() updateUserDto: UpdateUserDto,
+    @Req() req: RequestWithUser,
+  ) {
+    const userId = req.user.id;
+
+    const updatedUser = await this.usersService.updateUser(
+      userId,
+      updateUserDto,
+    );
+    return omit(updatedUser, ['password']);
   }
 }
