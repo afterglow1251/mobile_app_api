@@ -78,7 +78,7 @@ export class ProductsService {
       .leftJoinAndSelect('product.manufacturer', 'manufacturer');
 
     if (filters.name) {
-      queryBuilder.andWhere('product.name LIKE :name', {
+      queryBuilder.andWhere('LOWER(product.name) LIKE LOWER(:name)', {
         name: `%${filters.name}%`,
       });
     }
@@ -96,7 +96,7 @@ export class ProductsService {
     }
 
     if (filters.unitSize) {
-      queryBuilder.andWhere('product.unitSize LIKE :unitSize', {
+      queryBuilder.andWhere('LOWER(product.unitSize) LIKE LOWER(:unitSize)', {
         unitSize: `%${filters.unitSize}%`,
       });
     }
@@ -108,15 +108,21 @@ export class ProductsService {
     }
 
     if (filters.manufacturerName) {
-      queryBuilder.andWhere('manufacturer.name LIKE :manufacturerName', {
-        manufacturerName: `%${filters.manufacturerName}%`,
-      });
+      queryBuilder.andWhere(
+        'LOWER(manufacturer.name) LIKE LOWER(:manufacturerName)',
+        {
+          manufacturerName: `%${filters.manufacturerName}%`,
+        },
+      );
     }
 
     if (filters.manufacturerCountry) {
-      queryBuilder.andWhere('manufacturer.country LIKE :manufacturerCountry', {
-        manufacturerCountry: `%${filters.manufacturerCountry}%`,
-      });
+      queryBuilder.andWhere(
+        'LOWER(manufacturer.country) LIKE LOWER(:manufacturerCountry)',
+        {
+          manufacturerCountry: `%${filters.manufacturerCountry}%`,
+        },
+      );
     }
 
     return queryBuilder.getMany();
