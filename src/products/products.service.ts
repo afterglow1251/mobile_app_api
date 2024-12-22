@@ -94,13 +94,17 @@ export class ProductsService {
       });
     }
 
-    if (filters.unitSize) {
-      queryBuilder.andWhere('product.unitSize LIKE :unitSize', {
-        unitSize: `%${filters.unitSize}%`,
+    if (filters.unitSize === 'null') {
+      queryBuilder.andWhere('product.unitSize IS NULL');
+    } else if (filters.unitSize) {
+      queryBuilder.andWhere('product.unitSize = :unitSize', {
+        unitSize: filters.unitSize,
       });
     }
 
-    if (filters.beerType) {
+    if (filters.beerType === 'null') {
+      queryBuilder.andWhere('product.beerType IS NULL');
+    } else if (filters.beerType) {
       queryBuilder.andWhere('product.beerType = :beerType', {
         beerType: filters.beerType,
       });
