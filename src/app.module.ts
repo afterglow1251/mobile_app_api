@@ -17,6 +17,9 @@ import { OrderItem } from './entities/order-item.entity';
 import { Order } from './entities/order.entity';
 import { Manufacturer } from './entities/manufacturers.entity';
 import { ManufacturersModule } from './manufacturers/manufacturers.module';
+import { WholesaleCustomer } from './entities/wholesale-customer.dto';
+import { WholesaleOrder } from './entities/wholesale_order.dto';
+import { WholesaleOrderItem } from './entities/wholesale-order-item.dto';
 
 @Module({
   imports: [
@@ -38,6 +41,9 @@ import { ManufacturersModule } from './manufacturers/manufacturers.module';
         OrderItem,
         Order,
         Manufacturer,
+        WholesaleCustomer,
+        WholesaleOrder,
+        WholesaleOrderItem,
       ],
       synchronize: true,
       logging: true,
