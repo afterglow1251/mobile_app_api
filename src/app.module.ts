@@ -37,9 +37,6 @@ import { Order } from './entities/order.entity';
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         secret: configService.get('JWT_SECRET'),
-        signOptions: {
-          expiresIn: configService.get('JWT_EXPIRATION_TIME'),
-        },
       }),
       inject: [ConfigService],
     }),
