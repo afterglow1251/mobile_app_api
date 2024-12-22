@@ -35,4 +35,10 @@ export class Order {
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
+
+  @Column()
+  username: string;
+
+  @Column()
+  phoneNumber: string;
 }

@@ -19,7 +19,7 @@ export class OrdersService {
   ) {}
 
   async createOrder(createOrderDto: CreateOrderDto, userId: number) {
-    const { shippingAddress, items } = createOrderDto;
+    const { shippingAddress, items, username, phoneNumber } = createOrderDto;
 
     const productsMap = new Map<number, Product>();
     for (const item of items) {
@@ -46,6 +46,8 @@ export class OrdersService {
     const order = this.ordersRepository.create({
       user: { id: userId },
       shippingAddress,
+      username,
+      phoneNumber,
       totalPrice: items.reduce(
         (sum, item) =>
           sum + productsMap.get(item.productId).price * item.quantity,
