@@ -10,12 +10,55 @@ import {
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { Product } from 'src/entities/product.entity';
+import { ApiQuery } from '@nestjs/swagger';
 
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Get()
+  @ApiQuery({
+    name: 'name',
+    required: false,
+    description: 'The name of the product',
+    type: String,
+  })
+  @ApiQuery({
+    name: 'minPrice',
+    required: false,
+    description: 'The minimum price of the product',
+    type: Number,
+  })
+  @ApiQuery({
+    name: 'maxPrice',
+    required: false,
+    description: 'The maximum price of the product',
+    type: Number,
+  })
+  @ApiQuery({
+    name: 'unitSize',
+    required: false,
+    description: 'The unit size of the product',
+    type: String,
+  })
+  @ApiQuery({
+    name: 'beerType',
+    required: false,
+    description: 'The type of beer',
+    type: String,
+  })
+  @ApiQuery({
+    name: 'manufacturerName',
+    required: false,
+    description: 'The name of the manufacturer',
+    type: String,
+  })
+  @ApiQuery({
+    name: 'manufacturerCountry',
+    required: false,
+    description: 'The country of the manufacturer',
+    type: String,
+  })
   async findAll(
     @Query('name') name?: string,
     @Query('minPrice') minPrice?: number,
