@@ -81,11 +81,7 @@ export class OrdersService {
   async getAllOrders(userId: number) {
     const orders = await this.ordersRepository.find({
       where: { user: { id: userId } },
-      relations: [
-        'orderItems',
-        'orderItems.product',
-        'orderItems.product.images',
-      ],
+      relations: ['orderItems.product.images'],
       order: { createdAt: 'DESC' },
     });
 
