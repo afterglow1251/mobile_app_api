@@ -16,16 +16,15 @@ export enum BeerType {
 }
 
 export enum UnitSize {
-  'Beer_0.5L' = '0.5L',
-  'Beer_1L' = '1L',
-  'Beer_1_5L' = '1.5L',
-  'Beer_2L' = '2L',
-  'Beer_3L' = '3L',
-
-  'Snack_50G' = '50G',
-  'Snack_100G' = '100G',
-  'Snack_150G' = '150G',
-  'Snack_200G' = '200G',
+  '0.5L' = '0.5L',
+  '1L' = '1L',
+  '1.5L' = '1.5L',
+  '2L' = '2L',
+  '3L' = '3L',
+  '50G' = '50G',
+  '100G' = '100G',
+  '150G' = '150G',
+  '200G' = '200G',
 }
 
 @Entity('products')
