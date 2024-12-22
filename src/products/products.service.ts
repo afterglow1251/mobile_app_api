@@ -68,7 +68,8 @@ export class ProductsService {
     maxPrice?: number;
     unitSize?: string;
     beerType?: string;
-    manufacturer?: string;
+    manufacturerName?: string;
+    manufacturerCountry?: string;
   }): Promise<Product[]> {
     const queryBuilder = this.productsRepository
       .createQueryBuilder('product')
@@ -94,25 +95,27 @@ export class ProductsService {
       });
     }
 
-    if (filters.unitSize === 'null') {
-      queryBuilder.andWhere('product.unitSize IS NULL');
-    } else if (filters.unitSize) {
-      queryBuilder.andWhere('product.unitSize = :unitSize', {
-        unitSize: filters.unitSize,
+    if (filters.unitSize) {
+      queryBuilder.andWhere('product.unitSize LIKE :unitSize', {
+        unitSize: `%${filters.unitSize}%`,
       });
     }
 
-    if (filters.beerType === 'null') {
-      queryBuilder.andWhere('product.beerType IS NULL');
-    } else if (filters.beerType) {
+    if (filters.beerType) {
       queryBuilder.andWhere('product.beerType = :beerType', {
         beerType: filters.beerType,
       });
     }
 
-    if (filters.manufacturer) {
-      queryBuilder.andWhere('manufacturer.name LIKE :manufacturer', {
-        manufacturer: `%${filters.manufacturer}%`,
+    if (filters.manufacturerName) {
+      queryBuilder.andWhere('manufacturer.name LIKE :manufacturerName', {
+        manufacturerName: `%${filters.manufacturerName}%`,
+      });
+    }
+
+    if (filters.manufacturerCountry) {
+      queryBuilder.andWhere('manufacturer.country LIKE :manufacturerCountry', {
+        manufacturerCountry: `%${filters.manufacturerCountry}%`,
       });
     }
 

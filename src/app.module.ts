@@ -16,6 +16,7 @@ import { OrdersModule } from './orders/orders.module';
 import { OrderItem } from './entities/order-item.entity';
 import { Order } from './entities/order.entity';
 import { Manufacturer } from './entities/manufacturers.entity';
+import { ManufacturersModule } from './manufacturers/manufacturers.module';
 
 @Module({
   imports: [
@@ -53,6 +54,7 @@ import { Manufacturer } from './entities/manufacturers.entity';
     ProductsModule,
     CategoriesModule,
     OrdersModule,
+    ManufacturersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

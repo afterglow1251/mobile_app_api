@@ -22,7 +22,8 @@ export class ProductsController {
     @Query('maxPrice') maxPrice?: number,
     @Query('unitSize') unitSize?: string,
     @Query('beerType') beerType?: string,
-    @Query('manufacturer') manufacturer?: string,
+    @Query('manufacturerName') manufacturerName?: string,
+    @Query('manufacturerCountry') manufacturerCountry?: string,
   ): Promise<Product[]> {
     return this.productsService.findFiltered({
       name,
@@ -30,7 +31,8 @@ export class ProductsController {
       maxPrice,
       unitSize,
       beerType,
-      manufacturer,
+      manufacturerName,
+      manufacturerCountry,
     });
   }
 
