@@ -8,12 +8,21 @@ import {
   IsString,
 } from 'class-validator';
 import { Type } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class OrderItemDto {
+  @ApiProperty({
+    description: 'The ID of the product being ordered',
+    example: 123,
+  })
   @IsNotEmpty()
   @IsNumber()
   productId: number;
 
+  @ApiProperty({
+    description: 'The quantity of the product ordered',
+    example: 2,
+  })
   @IsNotEmpty()
   @IsNumber()
   @Min(1)
@@ -21,17 +30,33 @@ export class OrderItemDto {
 }
 
 export class CreateOrderDto {
+  @ApiProperty({
+    description: 'The shipping address for the order',
+    example: '123 Main St, Springfield, IL',
+  })
   @IsNotEmpty()
   shippingAddress: string;
 
+  @ApiProperty({
+    description: 'The username of the customer placing the order',
+    example: 'john_doe',
+  })
   @IsNotEmpty()
   @IsString()
   username: string;
 
+  @ApiProperty({
+    description: 'The phone number of the customer',
+    example: '+1234567890',
+  })
   @IsNotEmpty()
   @IsPhoneNumber()
   phoneNumber: string;
 
+  @ApiProperty({
+    description: 'List of items in the order',
+    type: [OrderItemDto],
+  })
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => OrderItemDto)
