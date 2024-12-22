@@ -6,6 +6,7 @@ import {
   Param,
   Delete,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { Product } from 'src/entities/product.entity';
@@ -15,8 +16,22 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Get()
-  async findAll(): Promise<Product[]> {
-    return this.productsService.findAll();
+  async findAll(
+    @Query('name') name?: string,
+    @Query('minPrice') minPrice?: number,
+    @Query('maxPrice') maxPrice?: number,
+    @Query('unitSize') unitSize?: string,
+    @Query('beerType') beerType?: string,
+    @Query('manufacturer') manufacturer?: string,
+  ): Promise<Product[]> {
+    return this.productsService.findFiltered({
+      name,
+      minPrice,
+      maxPrice,
+      unitSize,
+      beerType,
+      manufacturer,
+    });
   }
 
   @Get(':id')

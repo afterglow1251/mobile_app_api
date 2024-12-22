@@ -15,6 +15,7 @@ import { Category } from './entities/category.entity';
 import { OrdersModule } from './orders/orders.module';
 import { OrderItem } from './entities/order-item.entity';
 import { Order } from './entities/order.entity';
+import { Manufacturer } from './entities/manufacturers.entity';
 
 @Module({
   imports: [
@@ -28,7 +29,15 @@ import { Order } from './entities/order.entity';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [User, Product, ProductImage, Category, OrderItem, Order],
+      entities: [
+        User,
+        Product,
+        ProductImage,
+        Category,
+        OrderItem,
+        Order,
+        Manufacturer,
+      ],
       synchronize: true,
       logging: true,
     }),

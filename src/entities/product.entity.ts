@@ -8,6 +8,12 @@ import {
 import { Category } from './category.entity';
 import { ProductImage } from './product-image.entity';
 import { OrderItem } from './order-item.entity';
+import { Manufacturer } from './manufacturers.entity';
+
+export enum BeerType {
+  LIGHT = 'light',
+  DARK = 'dark',
+}
 
 @Entity('products')
 export class Product {
@@ -26,6 +32,12 @@ export class Product {
   @Column()
   quantity: number;
 
+  @Column({ nullable: true })
+  unitSize: number;
+
+  @Column({ type: 'enum', enum: BeerType, nullable: true })
+  beerType: BeerType;
+
   @ManyToOne(() => Category, (category) => category.products)
   category: Category;
 
@@ -34,4 +46,7 @@ export class Product {
 
   @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
   orderItems: OrderItem[];
+
+  @ManyToOne(() => Manufacturer, (manufacturer) => manufacturer.products)
+  manufacturer: Manufacturer;
 }

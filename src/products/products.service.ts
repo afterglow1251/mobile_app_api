@@ -5,6 +5,7 @@ import { Product } from 'src/entities/product.entity';
 import { Category } from 'src/entities/category.entity';
 import { ProductImage } from 'src/entities/product-image.entity';
 import { CustomHttpException } from 'src/errors/custom-http.exception';
+import { Manufacturer } from 'src/entities/manufacturers.entity';
 
 @Injectable()
 export class ProductsService {
@@ -15,6 +16,8 @@ export class ProductsService {
     private categoriesRepository: Repository<Category>,
     @InjectRepository(ProductImage)
     private productImagesRepository: Repository<ProductImage>,
+    @InjectRepository(Manufacturer)
+    private manufacturersRepository: Repository<Manufacturer>,
   ) {}
 
   async findAll(): Promise<Product[]> {
@@ -57,5 +60,58 @@ export class ProductsService {
       where: { category: { name: categoryName } },
       relations: ['category', 'images'],
     });
+  }
+
+  async findFiltered(filters: {
+    name?: string;
+    minPrice?: number;
+    maxPrice?: number;
+    unitSize?: string;
+    beerType?: string;
+    manufacturer?: string;
+  }): Promise<Product[]> {
+    const queryBuilder = this.productsRepository
+      .createQueryBuilder('product')
+      .leftJoinAndSelect('product.category', 'category')
+      .leftJoinAndSelect('product.images', 'images')
+      .leftJoinAndSelect('product.manufacturer', 'manufacturer');
+
+    if (filters.name) {
+      queryBuilder.andWhere('product.name LIKE :name', {
+        name: `%${filters.name}%`,
+      });
+    }
+
+    if (filters.minPrice) {
+      queryBuilder.andWhere('product.price >= :minPrice', {
+        minPrice: filters.minPrice,
+      });
+    }
+
+    if (filters.maxPrice) {
+      queryBuilder.andWhere('product.price <= :maxPrice', {
+        maxPrice: filters.maxPrice,
+      });
+    }
+
+    if (filters.unitSize) {
+      queryBuilder.andWhere('product.unitSize LIKE :unitSize', {
+        unitSize: `%${filters.unitSize}%`,
+      });
+    }
+
+    if (filters.beerType) {
+      queryBuilder.andWhere('product.beerType = :beerType', {
+        beerType: filters.beerType,
+      });
+    }
+
+    if (filters.manufacturer) {
+      queryBuilder.andWhere('manufacturer.name LIKE :manufacturer', {
+        manufacturer: `%${filters.manufacturer}%`,
+      });
+    }
+
+    return queryBuilder.getMany();
   }
 }
