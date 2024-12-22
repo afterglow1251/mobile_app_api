@@ -6,8 +6,8 @@ import {
   CreateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { WholesaleCustomer } from './wholesale-customer.dto';
-import { WholesaleOrderItem } from './wholesale-order-item.dto';
+import { WholesaleCustomer } from './wholesale-customer.entity';
+import { WholesaleOrderItem } from './wholesale-order-item.entity';
 
 @Entity('wholesale_orders')
 export class WholesaleOrder {

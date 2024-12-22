@@ -47,7 +47,7 @@ export class CreateOrderDto {
 
   @ApiProperty({
     description: 'The phone number of the customer',
-    example: '+1234567890',
+    example: '+380960000000',
   })
   @IsNotEmpty()
   @IsPhoneNumber()

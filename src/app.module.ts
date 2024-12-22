@@ -17,9 +17,11 @@ import { OrderItem } from './entities/order-item.entity';
 import { Order } from './entities/order.entity';
 import { Manufacturer } from './entities/manufacturers.entity';
 import { ManufacturersModule } from './manufacturers/manufacturers.module';
-import { WholesaleCustomer } from './entities/wholesale-customer.dto';
-import { WholesaleOrder } from './entities/wholesale_order.dto';
-import { WholesaleOrderItem } from './entities/wholesale-order-item.dto';
+import { WholesaleCustomer } from './entities/wholesale-customer.entity';
+import { WholesaleOrder } from './entities/wholesale-order.entity';
+import { WholesaleOrderItem } from './entities/wholesale-order-item.entity';
+import { WholesaleCustomersModule } from './wholesale-customers/wholesale-customers.module';
+import { WholesaleOrdersModule } from './wholesale-orders/wholesale-orders.module';
 
 @Module({
   imports: [
@@ -61,6 +63,8 @@ import { WholesaleOrderItem } from './entities/wholesale-order-item.dto';
     CategoriesModule,
     OrdersModule,
     ManufacturersModule,
+    WholesaleCustomersModule,
+    WholesaleOrdersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

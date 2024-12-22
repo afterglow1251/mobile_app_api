@@ -1,11 +1,5 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  JoinColumn,
-} from 'typeorm';
-import { WholesaleOrder } from './wholesale_order.dto';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { WholesaleOrder } from './wholesale-order.entity';
 import { Product } from './product.entity';
 
 @Entity('wholesale_order_items')

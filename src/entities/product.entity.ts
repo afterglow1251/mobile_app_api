@@ -9,6 +9,7 @@ import { Category } from './category.entity';
 import { ProductImage } from './product-image.entity';
 import { OrderItem } from './order-item.entity';
 import { Manufacturer } from './manufacturers.entity';
+import { WholesaleOrderItem } from './wholesale-order-item.entity';
 
 export enum BeerType {
   LIGHT = 'light',
@@ -61,4 +62,10 @@ export class Product {
 
   @ManyToOne(() => Manufacturer, (manufacturer) => manufacturer.products)
   manufacturer: Manufacturer;
+
+  @OneToMany(
+    () => WholesaleOrderItem,
+    (wholesaleOrderItem) => wholesaleOrderItem.product,
+  )
+  wholesaleOrderItems: WholesaleOrderItem[];
 }

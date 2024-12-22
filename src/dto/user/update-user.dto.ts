@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsString, IsOptional, IsPhoneNumber } from 'class-validator';
 
 export class UpdateUserDto {
   @ApiProperty({
@@ -6,13 +7,17 @@ export class UpdateUserDto {
     example: 'john_doe',
     required: false,
   })
+  @IsString()
+  @IsOptional()
   username?: string;
 
   @ApiProperty({
     description: 'The phone number of the user',
-    example: '+1234567890',
+    example: '+380960000000',
     required: false,
   })
+  @IsPhoneNumber('UA', { message: 'Invalid phone number format' })
+  @IsOptional()
   phoneNumber?: string;
 
   @ApiProperty({
@@ -20,5 +25,7 @@ export class UpdateUserDto {
     example: '123 Main St, Springfield, IL',
     required: false,
   })
+  @IsString()
+  @IsOptional()
   address?: string;
 }
