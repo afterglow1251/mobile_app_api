@@ -70,7 +70,7 @@ export class ProductsService {
     beerType?: string[];
     manufacturerName?: string[];
     manufacturerCountry?: string[];
-    category?: string[]; // Add category filter
+    category?: string[];
   }): Promise<Product[]> {
     const queryBuilder = this.productsRepository
       .createQueryBuilder('product')

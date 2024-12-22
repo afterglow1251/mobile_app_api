@@ -10,9 +10,11 @@ import {
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { Product } from 'src/entities/product.entity';
-import { ApiQuery } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import { accessToken } from 'src/constants/swagger.constants';
 
 @Controller('products')
+@ApiBearerAuth(accessToken)
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 

@@ -16,8 +16,11 @@ import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { omit } from 'lodash';
 import { RequestWithUser } from 'src/_types/user';
 import { UpdateUserDto } from 'src/dto/user/update-user.dto';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { accessToken } from 'src/constants/swagger.constants';
 
 @Controller('users')
+@ApiBearerAuth(accessToken)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 

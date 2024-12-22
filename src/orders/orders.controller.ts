@@ -3,8 +3,11 @@ import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { CreateOrderDto } from 'src/dto/order/order.dto';
 import { OrdersService } from './orders.service';
 import { RequestWithUser } from 'src/_types/user';
+import { accessToken } from 'src/constants/swagger.constants';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('orders')
+@ApiBearerAuth(accessToken)
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 

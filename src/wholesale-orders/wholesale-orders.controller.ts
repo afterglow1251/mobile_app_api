@@ -12,8 +12,11 @@ import { CreateWholesaleOrderDto } from 'src/dto/wholesale-order/wholesale-order
 import { WholesaleOrdersService } from './wholesale-orders.service';
 import { RequestWithUser } from 'src/_types/user';
 import { WholesaleOrder } from 'src/entities/wholesale-order.entity';
+import { accessToken } from 'src/constants/swagger.constants';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('wholesale-orders')
+@ApiBearerAuth(accessToken)
 export class WholesaleOrdersController {
   constructor(
     private readonly wholesaleOrdersService: WholesaleOrdersService,

@@ -1,8 +1,9 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import { Injectable, ConflictException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { WholesaleCustomer } from 'src/entities/wholesale-customer.entity';
 import { CreateWholesaleCustomerDto } from 'src/dto/wholesale-customer/create.dto';
+import { CustomHttpException } from 'src/errors/custom-http.exception';
 
 @Injectable()
 export class WholesaleCustomersService {
@@ -10,6 +11,19 @@ export class WholesaleCustomersService {
     @InjectRepository(WholesaleCustomer)
     private readonly wholesaleCustomerRepository: Repository<WholesaleCustomer>,
   ) {}
+
+  private async checkExists(id: number): Promise<void> {
+    const existingCustomer = await this.wholesaleCustomerRepository.findOne({
+      where: { id },
+    });
+
+    if (!existingCustomer) {
+      throw new CustomHttpException(
+        'Wholesale customer not found',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+  }
 
   async create(
     createDto: CreateWholesaleCustomerDto,
@@ -32,17 +46,20 @@ export class WholesaleCustomersService {
   }
 
   async findOne(id: number): Promise<WholesaleCustomer> {
+    await this.checkExists(id);
     return this.wholesaleCustomerRepository.findOne({
       where: { id },
     });
   }
 
   async update(id: number, updateDto: any): Promise<WholesaleCustomer> {
+    await this.checkExists(id);
     await this.wholesaleCustomerRepository.update(id, updateDto);
     return this.findOne(id);
   }
 
   async remove(id: number): Promise<void> {
+    await this.checkExists(id);
     await this.wholesaleCustomerRepository.delete(id);
   }
 }

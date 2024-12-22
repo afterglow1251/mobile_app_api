@@ -10,8 +10,11 @@ import {
 import { ManufacturersService } from './manufacturers.service';
 import { CreateManufacturerDto } from 'src/dto/manufacturer/create.dto';
 import { UpdateManufacturerDto } from 'src/dto/manufacturer/update.dto';
+import { accessToken } from 'src/constants/swagger.constants';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('manufacturers')
+@ApiBearerAuth(accessToken)
 export class ManufacturersController {
   constructor(private readonly manufacturersService: ManufacturersService) {}
 
