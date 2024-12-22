@@ -36,8 +36,14 @@ export class OrdersService {
       }
       if (product.quantity < item.quantity) {
         throw new CustomHttpException(
-          `Insufficient quantity for product ${product.name}. Available: ${product.quantity}, Requested: ${item.quantity}`,
+          `Insufficient quantity for product ${product.name}.`,
           HttpStatus.BAD_REQUEST,
+          {
+            productId: product.id,
+            productName: product.name,
+            availableQuantity: product.quantity,
+            requestedQuantity: item.quantity,
+          },
         );
       }
       productsMap.set(item.productId, product);
