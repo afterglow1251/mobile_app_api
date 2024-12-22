@@ -75,4 +75,17 @@ export class OrdersService {
 
     return savedOrder;
   }
+
+  async getAllOrders(userId: number) {
+    const orders = await this.ordersRepository.find({
+      where: { user: { id: userId } },
+      relations: ['orderItems', 'orderItems.product'],
+      order: { createdAt: 'DESC' },
+    });
+
+    return orders.map((order) => ({
+      ...order,
+      createdAt: order.createdAt,
+    }));
+  }
 }

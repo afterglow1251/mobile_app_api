@@ -4,6 +4,7 @@ import {
   Column,
   ManyToOne,
   OneToMany,
+  CreateDateColumn,
 } from 'typeorm';
 import { User } from './user.entity';
 import { OrderItem } from './order-item.entity';
@@ -31,4 +32,7 @@ export class Order {
 
   @OneToMany(() => OrderItem, (orderItem) => orderItem.order, { cascade: true })
   orderItems: OrderItem[];
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
 }

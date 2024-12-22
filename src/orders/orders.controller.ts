@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards, Req } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards, Req, Get } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { CreateOrderDto } from 'src/dto/order/order.dto';
 import { OrdersService } from './orders.service';
@@ -16,5 +16,12 @@ export class OrdersController {
   ) {
     const userId = req.user.id;
     return this.ordersService.createOrder(createOrderDto, userId);
+  }
+
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  async getAllOrders(@Req() req: RequestWithUser) {
+    const userId = req.user.id;
+    return this.ordersService.getAllOrders(userId);
   }
 }
