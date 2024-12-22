@@ -66,10 +66,11 @@ export class ProductsService {
     name?: string;
     minPrice?: number;
     maxPrice?: number;
-    unitSize?: string;
-    beerType?: string;
-    manufacturerName?: string;
-    manufacturerCountry?: string;
+    unitSize?: string[];
+    beerType?: string[];
+    manufacturerName?: string[];
+    manufacturerCountry?: string[];
+    category?: string[]; // Add category filter
   }): Promise<Product[]> {
     const queryBuilder = this.productsRepository
       .createQueryBuilder('product')
@@ -95,34 +96,40 @@ export class ProductsService {
       });
     }
 
-    if (filters.unitSize) {
-      queryBuilder.andWhere('LOWER(product.unitSize) LIKE LOWER(:unitSize)', {
-        unitSize: `%${filters.unitSize}%`,
+    if (filters.unitSize && filters.unitSize.length > 0) {
+      queryBuilder.andWhere('product.unitSize IN (:...unitSizes)', {
+        unitSizes: filters.unitSize,
       });
     }
 
-    if (filters.beerType) {
-      queryBuilder.andWhere('product.beerType = :beerType', {
-        beerType: filters.beerType,
+    if (filters.beerType && filters.beerType.length > 0) {
+      queryBuilder.andWhere('product.beerType IN (:...beerTypes)', {
+        beerTypes: filters.beerType,
       });
     }
 
-    if (filters.manufacturerName) {
+    if (filters.manufacturerName && filters.manufacturerName.length > 0) {
       queryBuilder.andWhere(
-        'LOWER(manufacturer.name) LIKE LOWER(:manufacturerName)',
+        'LOWER(manufacturer.name) IN (:...manufacturerNames)',
         {
-          manufacturerName: `%${filters.manufacturerName}%`,
+          manufacturerNames: filters.manufacturerName,
         },
       );
     }
 
-    if (filters.manufacturerCountry) {
+    if (filters.manufacturerCountry && filters.manufacturerCountry.length > 0) {
       queryBuilder.andWhere(
-        'LOWER(manufacturer.country) LIKE LOWER(:manufacturerCountry)',
+        'LOWER(manufacturer.country) IN (:...manufacturerCountries)',
         {
-          manufacturerCountry: `%${filters.manufacturerCountry}%`,
+          manufacturerCountries: filters.manufacturerCountry,
         },
       );
+    }
+
+    if (filters.category && filters.category.length > 0) {
+      queryBuilder.andWhere('category.name IN (:...categories)', {
+        categories: filters.category,
+      });
     }
 
     return queryBuilder.getMany();
