@@ -62,6 +62,7 @@ export class ProductsService {
     });
   }
 
+  // filtration
   async findFiltered(filters: {
     name?: string;
     minPrice?: number;
