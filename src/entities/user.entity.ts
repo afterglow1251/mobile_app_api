@@ -21,6 +21,9 @@ export class User {
   @Column({ type: 'varchar', length: 500, nullable: true })
   address: string | null;
 
+  @Column({ type: 'boolean', default: false })
+  isEmployee: boolean;
+
   @OneToMany(() => Order, (order) => order.user)
   orders: Order[];
 }
