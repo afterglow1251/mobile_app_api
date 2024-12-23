@@ -79,14 +79,18 @@ export class ProductsController {
     @Query('category') category?: string,
   ): Promise<Product[]> {
     const unitSizeArray = unitSize ? unitSize.split(',') : undefined;
-    const beerTypeArray = beerType ? beerType.split(',') : undefined;
+    const beerTypeArray = beerType
+      ? beerType.split(',').map((item) => item.toLowerCase())
+      : undefined;
     const manufacturerNameArray = manufacturerName
-      ? manufacturerName.split(',')
+      ? manufacturerName.split(',').map((item) => item.toLowerCase())
       : undefined;
     const manufacturerCountryArray = manufacturerCountry
-      ? manufacturerCountry.split(',')
+      ? manufacturerCountry.split(',').map((item) => item.toLowerCase())
       : undefined;
-    const categoryArray = category ? category.split(',') : undefined;
+    const categoryArray = category
+      ? category.split(',').map((item) => item.toLowerCase())
+      : undefined;
 
     return this.productsService.findFiltered({
       name,
