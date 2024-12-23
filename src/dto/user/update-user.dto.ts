@@ -5,6 +5,7 @@ import {
   IsPhoneNumber,
   IsBoolean,
 } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class UpdateUserDto {
   @ApiProperty({
@@ -14,6 +15,7 @@ export class UpdateUserDto {
   })
   @IsString()
   @IsOptional()
+  @Transform(({ value }) => (value === '' ? null : value))
   username?: string;
 
   @ApiProperty({
@@ -23,6 +25,7 @@ export class UpdateUserDto {
   })
   @IsPhoneNumber('UA', { message: 'Invalid phone number format' })
   @IsOptional()
+  @Transform(({ value }) => (value === '' ? null : value))
   phoneNumber?: string;
 
   @ApiProperty({
@@ -32,10 +35,11 @@ export class UpdateUserDto {
   })
   @IsString()
   @IsOptional()
+  @Transform(({ value }) => (value === '' ? null : value))
   address?: string;
 
   @ApiProperty({
-    description: 'Whether the user is an employee',
+    description: 'Indicates if the user is an employee',
     example: false,
     required: false,
   })
