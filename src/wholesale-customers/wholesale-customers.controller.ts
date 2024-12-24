@@ -36,14 +36,7 @@ export class WholesaleCustomersController {
   async create(
     @Body() createDto: CreateWholesaleCustomerDto,
   ): Promise<WholesaleCustomer> {
-    try {
-      return await this.wholesaleCustomersService.create(createDto);
-    } catch (error) {
-      if (error instanceof ConflictException) {
-        throw new ConflictException(error.message);
-      }
-      throw error;
-    }
+    return this.wholesaleCustomersService.create(createDto);
   }
 
   @Put(':id')
