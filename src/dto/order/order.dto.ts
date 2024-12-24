@@ -50,7 +50,9 @@ export class CreateOrderDto {
     example: '+380960000000',
   })
   @IsNotEmpty()
-  @IsPhoneNumber()
+  @IsPhoneNumber('UA', {
+    message: 'The phone number must be a valid Ukrainian number',
+  })
   phoneNumber: string;
 
   @ApiProperty({
