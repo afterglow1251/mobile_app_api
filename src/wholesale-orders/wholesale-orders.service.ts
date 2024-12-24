@@ -62,14 +62,18 @@ export class WholesaleOrdersService {
         );
       }
 
-      productsMap.set(item.productId, product);
+      const finalPrice =
+        item.wholesalePrice !== undefined ? item.wholesalePrice : product.price;
+
+      productsMap.set(item.productId, { ...product, price: finalPrice });
     }
 
-    const totalPrice = items.reduce(
-      (sum, item) =>
-        sum + productsMap.get(item.productId).price * item.quantity,
-      0,
-    );
+    const totalPrice = items.reduce((sum, item) => {
+      const product = productsMap.get(item.productId);
+      const finalPrice =
+        item.wholesalePrice !== undefined ? item.wholesalePrice : product.price;
+      return sum + finalPrice * item.quantity;
+    }, 0);
 
     const wholesaleOrder = this.wholesaleOrdersRepository.create({
       customer,

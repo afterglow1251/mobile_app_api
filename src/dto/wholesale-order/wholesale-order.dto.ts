@@ -4,6 +4,7 @@ import {
   IsArray,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   Min,
   ValidateNested,
 } from 'class-validator';
@@ -25,6 +26,17 @@ export class WholesaleOrderItemDto {
   @IsNumber()
   @Min(1)
   quantity: number;
+
+  @ApiProperty({
+    description:
+      'Optional price of the product being ordered. If not provided, the default product price will be used.',
+    example: 25.5,
+    required: false,
+  })
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  wholesalePrice?: number;
 }
 
 export class CreateWholesaleOrderDto {
