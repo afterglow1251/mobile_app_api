@@ -123,4 +123,27 @@ export class WholesaleOrdersService {
     }
     return order;
   }
+
+  async getLatestOrdersByCustomer(
+    customerId: number,
+  ): Promise<WholesaleOrder[]> {
+    const customer = await this.wholesaleCustomersRepository.findOne({
+      where: { id: customerId },
+    });
+    if (!customer) {
+      throw new CustomHttpException(
+        `Customer with ID ${customerId} not found`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    const orders = await this.wholesaleOrdersRepository.find({
+      where: { customer: { id: customerId } },
+      relations: ['orderItems.product'],
+      order: { createdAt: 'DESC' },
+      take: 3,
+    });
+
+    return orders;
+  }
 }
