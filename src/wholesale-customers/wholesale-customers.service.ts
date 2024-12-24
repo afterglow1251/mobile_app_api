@@ -42,7 +42,12 @@ export class WholesaleCustomersService {
   }
 
   async findAll(): Promise<WholesaleCustomer[]> {
-    return this.wholesaleCustomerRepository.find();
+    return this.wholesaleCustomerRepository.find({
+      relations: ['orders'],
+      order: {
+        createdAt: 'DESC',
+      },
+    });
   }
 
   async findOne(id: number): Promise<WholesaleCustomer> {

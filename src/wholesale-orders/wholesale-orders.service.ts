@@ -23,21 +23,32 @@ export class WholesaleOrdersService {
 
   async createWholesaleOrder(
     createWholesaleOrderDto: CreateWholesaleOrderDto,
-    userId: number,
-  ) {
-    const { items, customerId, status } = createWholesaleOrderDto;
+  ): Promise<WholesaleOrder> {
+    const { items, customerId } = createWholesaleOrderDto;
+
+    const customer = await this.wholesaleCustomersRepository.findOne({
+      where: { id: customerId },
+    });
+    if (!customer) {
+      throw new CustomHttpException(
+        `Wholesale customer with ID ${customerId} not found`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
 
     const productsMap = new Map<number, Product>();
     for (const item of items) {
       const product = await this.productsRepository.findOne({
         where: { id: item.productId },
       });
+
       if (!product) {
         throw new CustomHttpException(
           `Product with ID ${item.productId} not found`,
           HttpStatus.NOT_FOUND,
         );
       }
+
       if (product.quantity < item.quantity) {
         throw new CustomHttpException(
           `Insufficient quantity for product ${product.name}.`,
@@ -50,6 +61,7 @@ export class WholesaleOrdersService {
           },
         );
       }
+
       productsMap.set(item.productId, product);
     }
 
@@ -59,20 +71,10 @@ export class WholesaleOrdersService {
       0,
     );
 
-    const customer = await this.wholesaleCustomersRepository.findOne({
-      where: { id: customerId },
-    });
-    if (!customer) {
-      throw new CustomHttpException(
-        `Wholesale customer with ID ${customerId} not found`,
-        HttpStatus.NOT_FOUND,
-      );
-    }
-
     const wholesaleOrder = this.wholesaleOrdersRepository.create({
       customer,
       totalPrice,
-      status: status || 'pending',
+      status: 'pending',
     });
 
     const savedOrder =
@@ -98,10 +100,9 @@ export class WholesaleOrdersService {
     return savedOrder;
   }
 
-  async getAllWholesaleOrders(userId: number) {
+  async getAllWholesaleOrders(): Promise<WholesaleOrder[]> {
     const orders = await this.wholesaleOrdersRepository.find({
-      where: { customer: { id: userId } },
-      relations: ['orderItems.product'],
+      relations: ['customer', 'orderItems.product'],
       order: { createdAt: 'DESC' },
     });
 
