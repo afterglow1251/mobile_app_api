@@ -44,4 +44,12 @@ export class WholesaleOrdersController {
   ): Promise<WholesaleOrder[]> {
     return this.wholesaleOrdersService.getLatestOrdersByCustomer(customerId);
   }
+
+  @Get('customer/:customerId/all')
+  @UseGuards(JwtAuthGuard)
+  async getAllOrdersByCustomer(
+    @Param('customerId') customerId: number,
+  ): Promise<WholesaleOrder[]> {
+    return this.wholesaleOrdersService.getAllOrdersByCustomer(customerId);
+  }
 }

@@ -146,4 +146,24 @@ export class WholesaleOrdersService {
 
     return orders;
   }
+
+  async getAllOrdersByCustomer(customerId: number): Promise<WholesaleOrder[]> {
+    const customer = await this.wholesaleCustomersRepository.findOne({
+      where: { id: customerId },
+    });
+    if (!customer) {
+      throw new CustomHttpException(
+        `Customer with ID ${customerId} not found`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    const orders = await this.wholesaleOrdersRepository.find({
+      where: { customer: { id: customerId } },
+      relations: ['orderItems.product'],
+      order: { createdAt: 'DESC' },
+    });
+
+    return orders;
+  }
 }
