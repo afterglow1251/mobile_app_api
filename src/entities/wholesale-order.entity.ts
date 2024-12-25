@@ -17,7 +17,10 @@ export class WholesaleOrder {
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   totalPrice: number;
 
-  @ManyToOne(() => WholesaleCustomer, (customer) => customer.orders)
+  @ManyToOne(() => WholesaleCustomer, (customer) => customer.orders, {
+    onDelete: 'SET NULL',
+    nullable: true,
+  })
   customer: WholesaleCustomer;
 
   @OneToMany(() => WholesaleOrderItem, (orderItem) => orderItem.order)
