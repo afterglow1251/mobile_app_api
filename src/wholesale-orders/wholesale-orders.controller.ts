@@ -1,4 +1,12 @@
-import { Body, Controller, Post, UseGuards, Get, Param } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  UseGuards,
+  Get,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { CreateWholesaleOrderDto } from 'src/dto/wholesale-order/wholesale-order.dto';
 import { WholesaleOrdersService } from './wholesale-orders.service';
@@ -51,5 +59,14 @@ export class WholesaleOrdersController {
     @Param('customerId') customerId: number,
   ): Promise<WholesaleOrder[]> {
     return this.wholesaleOrdersService.getAllOrdersByCustomer(customerId);
+  }
+
+  @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  async deleteWholesaleOrder(
+    @Param('id') id: number,
+  ): Promise<{ message: string }> {
+    await this.wholesaleOrdersService.deleteWholesaleOrder(id);
+    return { message: 'Order deleted successfully' };
   }
 }

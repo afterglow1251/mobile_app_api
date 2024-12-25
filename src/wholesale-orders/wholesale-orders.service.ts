@@ -166,4 +166,16 @@ export class WholesaleOrdersService {
 
     return orders;
   }
+
+  async deleteWholesaleOrder(id: number): Promise<void> {
+    const order = await this.wholesaleOrdersRepository.findOne({
+      where: { id },
+    });
+
+    if (!order) {
+      throw new CustomHttpException('Order not found', HttpStatus.NOT_FOUND);
+    }
+
+    await this.wholesaleOrdersRepository.remove(order);
+  }
 }
