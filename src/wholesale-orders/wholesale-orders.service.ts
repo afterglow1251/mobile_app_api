@@ -170,11 +170,18 @@ export class WholesaleOrdersService {
   async deleteWholesaleOrder(id: number): Promise<void> {
     const order = await this.wholesaleOrdersRepository.findOne({
       where: { id },
+      relations: ['orderItems'],
     });
 
     if (!order) {
       throw new CustomHttpException('Order not found', HttpStatus.NOT_FOUND);
     }
+
+    await this.wholesaleOrderItemsRepository
+      .createQueryBuilder()
+      .delete()
+      .where('orderId = :id', { id: order.id })
+      .execute();
 
     await this.wholesaleOrdersRepository.remove(order);
   }
