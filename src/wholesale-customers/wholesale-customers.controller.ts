@@ -7,6 +7,7 @@ import {
   Put,
   Delete,
   ConflictException,
+  Patch,
 } from '@nestjs/common';
 import { WholesaleCustomersService } from './wholesale-customers.service';
 import { WholesaleCustomer } from 'src/entities/wholesale-customer.entity';
@@ -39,19 +40,12 @@ export class WholesaleCustomersController {
     return this.wholesaleCustomersService.create(createDto);
   }
 
-  @Put(':id')
+  @Patch(':id')
   async update(
     @Param('id') id: number,
     @Body() updateDto: UpdateWholesaleCustomerDto,
   ): Promise<WholesaleCustomer> {
-    try {
-      return await this.wholesaleCustomersService.update(id, updateDto);
-    } catch (error) {
-      if (error instanceof ConflictException) {
-        throw new ConflictException(error.message);
-      }
-      throw error;
-    }
+    return this.wholesaleCustomersService.update(id, updateDto);
   }
 
   @Delete(':id')

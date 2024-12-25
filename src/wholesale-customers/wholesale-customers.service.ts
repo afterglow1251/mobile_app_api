@@ -57,10 +57,21 @@ export class WholesaleCustomersService {
     });
   }
 
-  async update(id: number, updateDto: any): Promise<WholesaleCustomer> {
+  async update(
+    id: number,
+    updateDto: Partial<WholesaleCustomer>,
+  ): Promise<WholesaleCustomer> {
     await this.checkExists(id);
-    await this.wholesaleCustomerRepository.update(id, updateDto);
-    return this.findOne(id);
+
+    try {
+      await this.wholesaleCustomerRepository.update(id, updateDto);
+      return await this.findOne(id);
+    } catch (error) {
+      throw new CustomHttpException(
+        'Failed to update wholesale customer. Please try again.',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   async remove(id: number): Promise<void> {
