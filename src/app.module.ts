@@ -28,27 +28,31 @@ import { WholesaleOrdersModule } from './wholesale-orders/wholesale-orders.modul
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.DB_HOST,
-      port: +process.env.DB_PORT,
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-      entities: [
-        User,
-        Product,
-        ProductImage,
-        Category,
-        OrderItem,
-        Order,
-        Manufacturer,
-        WholesaleCustomer,
-        WholesaleOrder,
-        WholesaleOrderItem,
-      ],
-      synchronize: true,
-      logging: true,
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        url: configService.get('DATABASE_URL'),
+        entities: [
+          User,
+          Product,
+          ProductImage,
+          Category,
+          OrderItem,
+          Order,
+          Manufacturer,
+          WholesaleCustomer,
+          WholesaleOrder,
+          WholesaleOrderItem,
+        ],
+        synchronize: false,
+        logging: true,
+        ssl:
+          process.env.NODE_ENV === 'production'
+            ? { rejectUnauthorized: false }
+            : false,
+      }),
     }),
     JwtModule.registerAsync({
       global: true,
