@@ -46,7 +46,7 @@ import { WholesaleOrdersModule } from './wholesale-orders/wholesale-orders.modul
           WholesaleOrder,
           WholesaleOrderItem,
         ],
-        synchronize: false,
+        synchronize: true,
         logging: true,
         ssl:
           process.env.NODE_ENV === 'production'
