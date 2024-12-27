@@ -76,7 +76,7 @@ export class WholesaleOrdersController {
   @UseGuards(JwtAuthGuard)
   async updateWholesaleOrder(
     @Param('id') id: number,
-    @Body() updateWholesaleOrderDto: any,
+    @Body() updateWholesaleOrderDto: { createdAt: string },
   ): Promise<WholesaleOrder> {
     return this.wholesaleOrdersService.updateWholesaleOrder(
       id,
