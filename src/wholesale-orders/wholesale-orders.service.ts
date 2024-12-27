@@ -4,7 +4,10 @@ import { Repository } from 'typeorm';
 import { WholesaleOrder } from 'src/entities/wholesale-order.entity';
 import { WholesaleOrderItem } from 'src/entities/wholesale-order-item.entity';
 import { Product } from 'src/entities/product.entity';
-import { CreateWholesaleOrderDto } from 'src/dto/wholesale-order/wholesale-order.dto';
+import {
+  CreateWholesaleOrderDto,
+  UpdateWholesaleOrderDto,
+} from 'src/dto/wholesale-order/wholesale-order.dto';
 import { CustomHttpException } from 'src/errors/custom-http.exception';
 import { WholesaleCustomer } from 'src/entities/wholesale-customer.entity';
 
@@ -189,7 +192,7 @@ export class WholesaleOrdersService {
   // test
   async updateWholesaleOrder(
     id: number,
-    updateWholesaleOrderDto: any,
+    updateWholesaleOrderDto: UpdateWholesaleOrderDto,
   ): Promise<WholesaleOrder> {
     const order = await this.wholesaleOrdersRepository.findOne({
       where: { id },

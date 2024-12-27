@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
   IsArray,
+  IsDateString,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -56,4 +57,14 @@ export class CreateWholesaleOrderDto {
   @ValidateNested({ each: true })
   @Type(() => WholesaleOrderItemDto)
   items: WholesaleOrderItemDto[];
+}
+
+export class UpdateWholesaleOrderDto {
+  @ApiProperty({
+    description: 'The updated creation date of the order',
+    example: '2024-12-27T12:00:00Z',
+  })
+  @IsNotEmpty()
+  @IsDateString()
+  createdAt: string;
 }
