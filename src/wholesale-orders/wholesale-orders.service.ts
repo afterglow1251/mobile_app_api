@@ -185,4 +185,22 @@ export class WholesaleOrdersService {
 
     await this.wholesaleOrdersRepository.remove(order);
   }
+
+  // test
+  async updateWholesaleOrder(
+    id: number,
+    updateWholesaleOrderDto: any,
+  ): Promise<WholesaleOrder> {
+    const order = await this.wholesaleOrdersRepository.findOne({
+      where: { id },
+    });
+
+    if (!order) {
+      throw new CustomHttpException('Order not found', HttpStatus.NOT_FOUND);
+    }
+
+    Object.assign(order, updateWholesaleOrderDto);
+
+    return this.wholesaleOrdersRepository.save(order);
+  }
 }

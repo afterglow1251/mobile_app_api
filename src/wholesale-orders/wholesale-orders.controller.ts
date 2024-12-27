@@ -6,6 +6,7 @@ import {
   Get,
   Param,
   Delete,
+  Patch,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { CreateWholesaleOrderDto } from 'src/dto/wholesale-order/wholesale-order.dto';
@@ -68,5 +69,18 @@ export class WholesaleOrdersController {
   ): Promise<{ message: string }> {
     await this.wholesaleOrdersService.deleteWholesaleOrder(id);
     return { message: 'Order deleted successfully' };
+  }
+
+  // test
+  @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  async updateWholesaleOrder(
+    @Param('id') id: number,
+    @Body() updateWholesaleOrderDto: any,
+  ): Promise<WholesaleOrder> {
+    return this.wholesaleOrdersService.updateWholesaleOrder(
+      id,
+      updateWholesaleOrderDto,
+    );
   }
 }
